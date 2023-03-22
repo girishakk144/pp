@@ -1,0 +1,32 @@
+import * as React from 'react';
+import * as ReactDom from 'react-dom';
+import { IPageMetadataWebPartProps } from '../components/PageMetadataWebPart';
+import PageMetadata from '../components/PageMetadata';
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import IocHelper from '../../Helpers/Ioc/IocHelper';
+
+describe('PageMetadataWebPart', () => {
+  let webPart: BaseClientSideWebPart<IPageMetadataWebPartProps>;
+  let iocHelper: IocHelper;
+  let metaTagHelper: IMetaTagHelper;
+
+  beforeEach(() => {
+    iocHelper = new IocHelper();
+    webPart = new PageMetadataWebPart();
+    webPart.properties = {
+      metaKeywords: 'test',
+      metaDescription: 'test description'
+    };
+    metaTagHelper = {
+      createMetaTags: jest.fn(() => {
+        return [document.createElement('meta'), document.createElement('meta')];
+      }),
+    };
+    iocHelper.getMetaTagHelper = jest.fn(() => {
+      return metaTagHelper;
+    });
+    webPart['iocHelper'] = iocHelper;
+  });
+
+  it('should create meta tags and append to head', () => {
+    const spyAppend = jest.spyOn(document
