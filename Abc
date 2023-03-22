@@ -1,0 +1,30 @@
+import * as React from 'react';
+import * as ReactDom from 'react-dom';
+import { IPageMetadataWebPartProps } from '../IPageMetadataWebPartProps';
+import PageMetadataWebPart from '../PageMetadataWebPart';
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+
+describe('PageMetadataWebPart', () => {
+  let props: IPageMetadataWebPartProps;
+  let webPart: BaseClientSideWebPart<IPageMetadataWebPartProps>;
+
+  beforeEach(() => {
+    props = {
+      metaKeywords: 'example keywords',
+      metaDescription: 'example description',
+    };
+    webPart = new PageMetadataWebPart();
+    webPart.render();
+  });
+
+  afterEach(() => {
+    ReactDom.unmountComponentAtNode(webPart.domElement);
+  });
+
+  it('renders the PageMetadata component with the correct props', () => {
+    const pageMetadata = webPart.domElement.querySelector('[data-testid="page-metadata"]');
+    expect(pageMetadata).not.toBeNull();
+    expect(pageMetadata.getAttribute('data-meta-keywords')).toBe(props.metaKeywords);
+    expect(pageMetadata.getAttribute('data-meta-description')).toBe(props.metaDescription);
+  });
+});
