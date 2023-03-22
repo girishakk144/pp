@@ -1,0 +1,28 @@
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { IPageMetadataWebPartProps } from '../IPageMetadataWebPartProps';
+import { PageMetadataWebPart } from '../PageMetadataWebPart';
+
+describe('PageMetadataWebPart', () => {
+  it('renders the PageMetadata component with the correct props', () => {
+    // Arrange
+    const props: IPageMetadataWebPartProps = {
+      metaKeywords: 'test keywords',
+      metaDescription: 'test description',
+      displayMode: 1,
+    };
+    const container = document.createElement('div');
+    const component = new PageMetadataWebPart();
+    component.domElement = container;
+    jest.spyOn(ReactDOM, 'render');
+  
+    // Act
+    component.render();
+
+    // Assert
+    expect(ReactDOM.render).toHaveBeenCalledWith(
+      <PageMetadata {...props} />,
+      container
+    );
+  });
+});
