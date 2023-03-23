@@ -1,0 +1,42 @@
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import IocHelper from '../helpers/IocHelper';
+import IPropertyPaneHelper from '../helpers/IPropertyPaneHelper';
+import IMetaTagHelper from '../helpers/IMetaTagHelper';
+import PageMetadataWebPart from '../PageMetadataWebPart';
+
+jest.mock('../helpers/IocHelper', () => ({
+  getPropertyPaneHelper: jest.fn(() => ({
+    // mocked implementation of the property pane helper methods
+  })),
+  getMetaTagHelper: jest.fn(() => ({
+    // mocked implementation of the meta tag helper methods
+  })),
+}));
+
+describe('PageMetadataWebPart', () => {
+  let webPart: PageMetadataWebPart;
+
+  beforeEach(() => {
+    webPart = new PageMetadataWebPart();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should extend BaseClientSideWebPart', () => {
+    expect(webPart).toBeInstanceOf(BaseClientSideWebPart);
+  });
+
+  it('should initialize the iocHelper property', () => {
+    expect(webPart.iocHelper).toBeInstanceOf(IocHelper);
+  });
+
+  it('should initialize the propertyPaneHelper property', () => {
+    expect(webPart.propertyPaneHelper).toBeInstanceOf(IPropertyPaneHelper);
+  });
+
+  it('should initialize the metaTagHelper property', () => {
+    expect(webPart.metaTagHelper).toBeInstanceOf(IMetaTagHelper);
+  });
+});
