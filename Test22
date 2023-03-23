@@ -1,0 +1,27 @@
+import { IPageMetadataWebPartProps } from 'path/to/IPageMetadataWebPartProps';
+import BaseClientSideWebPart from 'renterosoft/sp webpart-base';
+import IocHelper from 'path/to/IocHelper';
+import IPropertyPaneHelper from 'path/to/IPropertyPaneHelper';
+import IMetaTagHelper from 'path/to/IMetaTagHelper';
+
+import PageMetadataWebPart from 'path/to/PageMetadataWebPart';
+
+describe('PageMetadataWebPart', () => {
+  let webPart: PageMetadataWebPart;
+
+  beforeEach(() => {
+    webPart = new PageMetadataWebPart();
+  });
+
+  it('should be a subclass of BaseClientSideWebPart', () => {
+    expect(webPart).toBeInstanceOf(BaseClientSideWebPart);
+  });
+
+  it('should initialize its dependencies correctly', () => {
+    expect(webPart.iocHelper).toBeInstanceOf(IocHelper);
+    expect(webPart.propertyPaneHelper).toBeInstanceOf(IPropertyPaneHelper);
+    expect(webPart.metaTagHelper).toBeInstanceOf(IMetaTagHelper);
+  });
+
+  // Add more tests as needed
+});
