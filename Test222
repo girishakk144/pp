@@ -1,0 +1,45 @@
+describe('oninit0', () => {
+  it('should initialize MetricsRecorderlnitializerHelper when current URL is a site page URL', async () => {
+    // Arrange
+    const mockIsSitePageUrl = jest.fn().mockReturnValue(true);
+    const mockInitialize = jest.fn().mockResolvedValue(undefined);
+    const mockUriValidatorHelper = {
+      isSitePageUrl: mockIsSitePageUrl,
+    };
+    const mockMetricsRecorderInitializerHelper = {
+      initialize: mockInitialize,
+    };
+    jest.spyOn(window, 'location', 'get').mockReturnValue({
+      href: 'https://example.com/mypage.html',
+    });
+
+    // Act
+    await oninit0();
+
+    // Assert
+    expect(mockIsSitePageUrl).toHaveBeenCalledWith('https://example.com/mypage.html');
+    expect(mockInitialize).toHaveBeenCalled();
+  });
+
+  it('should not initialize MetricsRecorderlnitializerHelper when current URL is not a site page URL', async () => {
+    // Arrange
+    const mockIsSitePageUrl = jest.fn().mockReturnValue(false);
+    const mockInitialize = jest.fn().mockResolvedValue(undefined);
+    const mockUriValidatorHelper = {
+      isSitePageUrl: mockIsSitePageUrl,
+    };
+    const mockMetricsRecorderInitializerHelper = {
+      initialize: mockInitialize,
+    };
+    jest.spyOn(window, 'location', 'get').mockReturnValue({
+      href: 'https://example.com/not-a-site-page.html',
+    });
+
+    // Act
+    await oninit0();
+
+    // Assert
+    expect(mockIsSitePageUrl).toHaveBeenCalledWith('https://example.com/not-a-site-page.html');
+    expect(mockInitialize).not.toHaveBeenCalled();
+  });
+});
